@@ -23,4 +23,4 @@ Mock.mock(/\/user\/logout/, 'post', userAPI.logout)
 // Table
 Mock.mock(/\/table\/list/, 'get', tableAPI.list)
 
-export default Mock
+// export default Mock
