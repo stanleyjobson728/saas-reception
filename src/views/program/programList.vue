@@ -83,23 +83,21 @@
             name="file"
             list-type="picture-card"
             :limit="1"
-            :file-list="fileList"
             :on-exceed="onExceed"
-            :headers="myHeader"
             :before-upload="beforeUpload"
             :on-preview="handlePreview"
             :on-success="handleSuccess"
             :on-remove="handleRemove">
             <i class="el-icon-plus"></i>
           </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="">
-          </el-dialog>
+<!--          <el-dialog :visible.sync="dialogVisible">-->
+<!--            <img width="100%" :src="dialogImageUrl" alt="">-->
+<!--          </el-dialog>-->
         </el-form-item>
 
-          图片上传：
-          <input type="file" placeholder="商品图片" class="marleft marright clearmoren" id="chuan" ref="file" @change="upload2">
-          <el-button type="primary" size="mini" @click="upload">上传</el-button>
+<!--          图片上传：-->
+<!--          <input type="file" placeholder="商品图片" class="marleft marright clearmoren" id="chuan" ref="file" @change="upload2">-->
+<!--          <el-button type="primary" size="mini" @click="upload">上传</el-button>-->
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -205,6 +203,7 @@
         service2.request('/api/program/index',
           {page: 1}
         ).then(function (response) {
+          debugger;
           console.log(response.data.resultObject.list);
           _this.list = response.data.resultObject.list;
           var item = sessionStorage.getItem('access_token');
@@ -259,9 +258,9 @@
         }
         return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
       },
-      upload2:function(){
-        this.uploadfile =  this.$refs.file.files  // 里面就是你要的内容
-      },
+      // upload2:function(){
+      //   this.uploadfile =  this.$refs.file.files  // 里面就是你要的内容
+      // },
       //上传图片
       upload: function () {
         // var f = this.$refs.file.files;
