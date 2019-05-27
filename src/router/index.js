@@ -41,23 +41,23 @@ export const constantRouterMap = [
       component: () => import('@/views/home/index')
     }]
   },
-  clientRtr,
-  userRtr,
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-  { path: '*', redirect: '/404', hidden: true },
+  // clientRtr,
+  // userRtr,
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Form',
+  //       component: () => import('@/views/form/index'),
+  //       meta: { title: 'Form', icon: 'form' }
+  //     }
+  //   ]
+  // },
   homepage,
   program,
+  { path: '*', redirect: '/404', hidden: true },
 ]
 
 const router = new Router({
