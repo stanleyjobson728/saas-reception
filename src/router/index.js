@@ -13,6 +13,7 @@ import kc from '../keycloak-config'
 // 子模块路由
 import userRtr from './user'
 import clientRtr from './client'
+import homepage from './homepage'
 import program from './program'
 /**
  * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
@@ -55,6 +56,7 @@ export const constantRouterMap = [
     ]
   },
   { path: '*', redirect: '/404', hidden: true },
+  homepage,
   program,
 ]
 
