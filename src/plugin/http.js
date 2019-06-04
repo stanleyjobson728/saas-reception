@@ -23,7 +23,7 @@ function changeSucceed(response) {
     }else{
         // 异常状态下，把错误信息返回去
         return {
-            status: -404,
+            status: response.status,
             msg: '网络异常',
             response: response
         }

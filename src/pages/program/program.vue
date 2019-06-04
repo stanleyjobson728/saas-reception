@@ -15,12 +15,12 @@
                         {{ scope.$index + 1 }}
                     </template>
                 </el-table-column>
-                <el-table-column label="应用名称">
+                <el-table-column label="应用名称" align="center">
                     <template slot-scope="scope">
                         {{ scope.row.name }}
                     </template>
                 </el-table-column>
-                <el-table-column label="icon图标">
+                <el-table-column label="icon图标" align="center">
                     <template slot-scope="scope">
                         <img :src="scope.row.icon" />
                     </template>
@@ -48,6 +48,12 @@
                 <el-table-column class-name="status-col" label="状态（show_status）" align="center">
                     <template slot-scope="scope">
                         <el-tag>{{ scope.row.showStatus ? '显示' : '隐藏' }}</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column class-name="status-col" label="排序" align="center">
+                    <template slot-scope="scope">
+                        <el-button @click="handleChangeUp(scope.row.id)" type="text" size="small">升序</el-button>
+                        <el-button @click="handleChangeDown(scope.row.id)" type="text" size="small">降序</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作" align="center">
@@ -81,11 +87,12 @@
                     <!--图片上传-->
                     <el-form-item label="ICON" class="defaultPic" prop="icon">
                         <label for="pic">
-                            <img :src="resForm.icon" class="el-icon-plus" alt="">
+                            <img v-if="resForm.isIconShow" :src="resForm.icon" alt="">
+                            <img v-if="resForm.isIconShow == false" src="@/assets/program/file.jpg" alt="">
                         </label>
-                        <input @change="fileFn" type="file" id="pic" accept="image/*">
+                        <input @change="fileFn" ref="inputFile" type="file" id="pic" accept="image/*">
+                        <p class='fileError' v-if="resForm.fileErrorFlag">{{this.resForm.fileErrorText}}</p>
                         <p v-if="resForm.fileErrorFlag == false">只能上传jpg/png格式文件，文件不能超过1M</p>
-                        <p class='fileError' v-if="resForm.fileErrorFlag == true">{{this.resForm.fileErrorText}}</p>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -121,7 +128,9 @@
                     uris: '',
                     radio: '0',
                     radio1: '0',
+                    
                     icon: '',
+                    isIconShow: false,
                     fileErrorFlag: false,
                     fileErrorText: ''
                 },
@@ -179,14 +188,17 @@
                     if(fileData.size > 1*1024*1024){
                         this.resForm.fileErrorFlag = true;
                         this.resForm.fileErrorText = '图片文件不得大于1M';
+                        this.$refs.inputFile.value = '';
                     }else{
                         let formdata = new FormData();
                         formdata.append('file',fileData)
                         Api.addImgFile(formdata).then(({data})=>{
                             if(data.errorCode === 0){
-                                this.resForm.fileErrorFlag = false;
                                 this.resForm.icon = data.resultObject.url;
+                                this.resForm.isIconShow = true;
+                                this.resForm.fileErrorFlag = false;
                             }else{
+                                this.resForm.isIconShow = false;
                                 this.$message({
                                     message: data.errorMessage,
                                     type: 'error'
@@ -232,7 +244,6 @@
                                 console.log(err)
                             })
                         }else{
-                            console.log(data)
                             Api.addProgram(data).then(({data})=>{
                                 if(data.errorCode === 0){
                                     this.$message({
@@ -274,7 +285,34 @@
             changeCloseDialog(){
                 this.$refs.resForm.resetFields();
                 this.$refs.resForm.clearValidate();
+                this.resForm.isIconShow = false;
                 this.resForm.fileErrorFlag = false;
+            },
+            // 升序
+            handleChangeUp(ev){
+                this.changeSortFn('up',ev);
+            },
+            // 降序
+            handleChangeDown(ev){
+                this.changeSortFn('down',ev);
+            },
+            changeSortFn(state,ev){
+                let data = {
+                    order: state,
+                    id: ev
+                }
+                Api.changeSort(data).then(({data})=>{
+                    if(data.errorCode == 0){
+                        this.handleProgramList();
+                    }else{
+                        this.$message({
+                            message: data.errorMessage,
+                            type: 'error'
+                        });
+                    }
+                }).catch((err)=>{
+                    console.log(err)
+                })
             },
             // 分页
             handleChangePage(val){
@@ -321,12 +359,14 @@
                         display: inline-block;
                         width: 100px;
                         height: 100px;
-                        border: 4px dotted #363636;
                         overflow: hidden;
+                        border-radius: 50%; 
+                        border: 2px solid rgb(19, 18, 18);
                         img{
                             width: 100%;
                             height: 100%;
                             font-size: 100px;
+                            border-radius: 50%; 
                         }
                     }
                     input{

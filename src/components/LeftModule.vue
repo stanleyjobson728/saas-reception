@@ -5,14 +5,8 @@
             <el-radio-button :label="true">收起</el-radio-button>
         </el-radio-group> -->
         <el-menu text-color="#fff" background-color="#545c64" default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">           
-            <router-link to="/index">
-                <el-menu-item index="1">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">首页</span>
-                </el-menu-item>
-            </router-link>
             <router-link :to="{path:'/index/program'}">
-                <el-menu-item index="2">
+                <el-menu-item index="1">
                     <i class="el-icon-setting"></i>
                     <span slot="title">应用管理</span>
                 </el-menu-item>

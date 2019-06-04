@@ -4,13 +4,13 @@
             <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>应用管理</el-breadcrumb-item>
         </el-breadcrumb>
-        <el-dropdown class="username">
+        <el-dropdown class="username" trigger="click">
             <el-button type="primary">
                 你是谁<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>黄金糕</el-dropdown-item>
-                <el-dropdown-item>狮子头</el-dropdown-item>
+            <el-dropdown-menu slot="dropdown" align="center">
+                <el-dropdown-item>个人中心</el-dropdown-item>
+                <el-dropdown-item>退出</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
     </div>

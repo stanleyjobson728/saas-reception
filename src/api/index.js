@@ -14,9 +14,11 @@ export default{
     },
     // 上传图片
     addImgFile(param){
-        return http.postJson('common/fileUpload',param);
+        return http.postJson('/common/fileUpload',param);
     },
-    // 
-
+    // 排序
+    changeSort(param){
+        return http.post('/program/change/ordernumber',param);
+    },
 
 }
